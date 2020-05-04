@@ -59,6 +59,7 @@ export interface DraggableInfo {
   mousePosition: Position;
   groupName?: string;
   ghostParent: HTMLElement | null;
+  ghostInfo: GhostInfo;
   relevantContainers: IContainer[];
   cancelDrop?: boolean;
 }

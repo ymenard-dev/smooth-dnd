@@ -477,7 +477,7 @@ function onMouseUp() {
     handleMissedDragFrame();
     dropAnimationStarted = true;
     handleDropAnimation(() => {
-      isDragging = false; // 
+      isDragging = false; //
       fireOnDragStartEnd(false);
       const containers = dragListeningContainers || [];
 
@@ -579,6 +579,7 @@ function initiateDrag(position: MousePosition, cursor: string) {
       draggableInfo.container,
       cursor
     );
+    draggableInfo.ghostInfo = ghostInfo;
     draggableInfo.position = {
       x: position.clientX + ghostInfo.centerDelta.x,
       y: position.clientY + ghostInfo.centerDelta.y,

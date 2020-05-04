@@ -300,7 +300,7 @@ function getShadowBeginEndForDropZone({ layout }: ContainerProps) {
 function drawDropPlaceholder({ layout, element, getOptions }: ContainerProps) {
   let prevAddedIndex: number | null = null;
   return ({ dragResult: { elementSize, shadowBeginEnd, addedIndex, dropPlaceholderContainer } }: DragInfo) => {
-    const options = getOptions();    
+    const options = getOptions();
     if (options.dropPlaceholder) {
       const { animationDuration, className, showOnTop } = typeof options.dropPlaceholder === 'boolean' ? {} as any as DropPlaceholderOptions : options.dropPlaceholder as DropPlaceholderOptions;
       if (addedIndex !== null) {
@@ -565,14 +565,14 @@ function handleFirstInsertShadowAdjustment() {
 function fireDragEnterLeaveEvents({ getOptions }: ContainerProps) {
   let wasDragIn = false;
   const options = getOptions();
-  return ({ dragResult: { pos } }: DragInfo) => {
+  return ({ draggableInfo, dragResult: { pos } }: DragInfo) => {
     const isDragIn = !!pos;
     if (isDragIn !== wasDragIn) {
       wasDragIn = isDragIn;
       if (isDragIn) {
-        options.onDragEnter && options.onDragEnter();
+        options.onDragEnter && options.onDragEnter({ draggableInfo });
       } else {
-        options.onDragLeave && options.onDragLeave();
+        options.onDragLeave && options.onDragLeave({ draggableInfo });
       }
     }
 
@@ -609,11 +609,11 @@ function getDragHandler(params: ContainerProps) {
       getRemovedItem,
       setRemovedItemVisibilty,
       getPosition,
+      fireDragEnterLeaveEvents,
       getElementSize,
       handleTargetContainer,
       getDragInsertionIndexForDropZone,
       getShadowBeginEndForDropZone,
-      fireDragEnterLeaveEvents,
       fireOnDropReady
     );
   } else {
@@ -621,6 +621,7 @@ function getDragHandler(params: ContainerProps) {
       getRemovedItem,
       setRemovedItemVisibilty,
       getPosition,
+      fireDragEnterLeaveEvents,
       getElementSize,
       handleTargetContainer,
       invalidateShadowBeginEndIfNeeded,
@@ -631,7 +632,6 @@ function getDragHandler(params: ContainerProps) {
       getShadowBeginEnd,
       drawDropPlaceholder,
       handleFirstInsertShadowAdjustment,
-      fireDragEnterLeaveEvents,
       fireOnDropReady
     );
   }
@@ -738,7 +738,7 @@ function Container(element: HTMLElement): (options?: ContainerOptions) => IConta
         if (dragResult && dragResult.dropPlaceholderContainer) {
           element.removeChild(dragResult.dropPlaceholderContainer);
         }
-        lastDraggableInfo = null;       
+        lastDraggableInfo = null;
         dragHandler = getDragHandler(props);
         dropHandler(draggableInfo, dragResult!);
         dragResult = null;
@@ -791,7 +791,7 @@ const smoothDnD: SmoothDnDCreator = function (element: HTMLElement, options?: Co
   };
 };
 
-// wrap all draggables by default 
+// wrap all draggables by default
 // in react,vue,angular this value will be set to false
 smoothDnD.wrapChild = true;
 smoothDnD.cancelDrag = function () {

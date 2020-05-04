@@ -1,6 +1,8 @@
+import {DraggableInfo} from "./interfaces";
+
 export interface SmoothDnD {
 	dispose: () => void;
-	setOptions: (options: ContainerOptions, merge?: boolean) => void;	
+	setOptions: (options: ContainerOptions, merge?: boolean) => void;
 }
 
 export type SmoothDnDCreator = ((element: HTMLElement, options?: ContainerOptions) => SmoothDnD) & {
@@ -21,6 +23,10 @@ export interface DropResult {
 	element?: HTMLElement;
 }
 
+export interface DragDraggableInfo {
+  draggableInfo: DraggableInfo;
+}
+
 export interface DropPlaceholderOptions {
 	className?: string;
 	animationDuration?: number;
@@ -33,6 +39,7 @@ export interface DragEndParams { isSource: boolean; payload: any; willAcceptDrop
 export type DragStartCallback = Callback<DragStartParams>;
 export type DragEndCallback = Callback<DragEndParams>;
 export type OnDropCallback = Callback<DropResult>;
+export type OnDragDraggableInfoCallback = Callback<DragDraggableInfo>;
 export type OnDropReadyCallback = Callback<DropResult>;
 
 
@@ -53,11 +60,11 @@ export interface ContainerOptions {
 	getChildPayload?: (index: number) => any;
 	shouldAnimateDrop?: (sourceContainerOptions: ContainerOptions, payload: any) => boolean;
 	shouldAcceptDrop?: (sourceContainerOptions: ContainerOptions, payload: any) => boolean;
-	onDragEnter?: () => void;
-	onDragLeave?: () => void;
+	onDragEnter?: Callback<OnDragDraggableInfoCallback>;
+	onDragLeave?: Callback<OnDragDraggableInfoCallback>;
 	onDropReady?: OnDropReadyCallback;
 	removeOnDropOut?: boolean;
 	getGhostParent?: () => HTMLElement;
 	onDragEnd?: DragEndCallback;
-	dropPlaceholder?: DropPlaceholderOptions | boolean;	
+	dropPlaceholder?: DropPlaceholderOptions | boolean;
 }
