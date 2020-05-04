@@ -1,5 +1,5 @@
 {
-  "name": "smooth-dnd",
+  "name": "@ymenard-dev/smooth-dnd",
   "version": "0.12.1",
   "description": "Drag and Drop library",
   "main": "./dist/index.js",
@@ -28,7 +28,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kutlugsahin/smooth-dnd.git"
+    "url": "https://github.com/ymenard-dev/smooth-dnd.git"
   },
   "devDependencies": {
     "@babel/core": "7.3.4",
@@ -39,5 +39,8 @@
     "rollup-plugin-commonjs": "^9.2.1",
     "rollup-plugin-uglify": "6.0.2",
     "typescript": "3.3.3333"
+  },
+  "publishConfig": {
+    "registry":"https://npm.pkg.github.com/"
   }
 }
